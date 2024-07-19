@@ -9,16 +9,12 @@ arch=(any)
 license=("custom:Public domain")
 depends=(mkinitcpio)
 source=(README.md hook install)
-md5sums=(SKIP SKIP SKIP)
+md5sums=('4889175847768110c404b8ff97676a08'
+         '3ff39deb52dc7379b8509f388602df93'
+         '4396c87752b40517ac3acbebaa0ccebc')
 
 package() {
-  local DEST=(
-    "usr/share/doc/$pkgname/README.md"
-    "lib/initcpio/hooks/$_name"
-    "lib/initcpio/install/$_name"
-  )
-  for((i = 0; i < "${#source[@]}"; ++i)); do
-    mkdir -p "$pkgdir/$(dirname "${DEST[i]}")"
-    install --mode +r "$srcdir/${source[i]}" "$pkgdir/${DEST[i]}"
-  done
+  install -Dm644 hook "$pkgdir/etc/initcpio/hooks/$_name"
+  install -Dm644 install "$pkgdir/etc/initcpio/install/$_name"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
 }
